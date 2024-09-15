@@ -4,7 +4,7 @@ import { getTasks } from '@/lib/tasks.action';
 import { Calendar } from '@/components/ui/calendar';
 import TaskList from '@/components/TaskList'; 
 import { Toaster } from 'react-hot-toast';
-import Modal from '@/components/Modal'; 
+import Modal from '@/components/modal'; 
 
 const TodayTaskPage = () => {
   const [tasks, setTasks] = useState([]);
