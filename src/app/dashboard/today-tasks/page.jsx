@@ -2,19 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import { getTasks } from '@/lib/tasks.action';
 import { Calendar } from '@/components/ui/calendar';
-import TaskList from '@/components/TaskList'; // Import TaskList
-import { Toaster } from 'react-hot-toast'; // Import Toaster for notifications
-import Modal from '@/components/Modal'; // Import Modal
+import TaskList from '@/components/TaskList'; 
+import { Toaster } from 'react-hot-toast';
+import Modal from '@/components/Modal'; 
 
 const TodayTaskPage = () => {
   const [tasks, setTasks] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [isLoading, setIsLoading] = useState(false); // New state for loading indicator
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [isLoading, setIsLoading] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   useEffect(() => {
     const fetchTasks = async () => {
-      setIsLoading(true); // Start loading
+      setIsLoading(true); 
       const today = new Date();
       const startOfDay = new Date(today.setHours(0, 0, 0, 0));
       const endOfDay = new Date(today.setHours(23, 59, 59, 999));
@@ -22,7 +22,7 @@ const TodayTaskPage = () => {
       if (response.success) {
         setTasks(response.data);
       }
-      setIsLoading(false); // End loading
+      setIsLoading(false); 
     };
 
     fetchTasks();
