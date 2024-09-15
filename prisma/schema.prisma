@@ -42,6 +42,8 @@ model Task {
   scheduledTime   DateTime
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  completed       Boolean  @default(false)
+  priority        String   @default("medium") // Add this line
   user            User     @relation(fields: [userId], references: [id])
   userId          String
 }

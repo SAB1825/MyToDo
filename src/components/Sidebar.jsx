@@ -2,6 +2,7 @@
 import { MoreVertical, ChevronLast, ChevronFirst, Plus, Calendar, CheckCircle, List } from "lucide-react"
 import { useState, useContext, createContext, useEffect } from "react"
 import AddTaskForm from "./forms/task.form"
+import { redirect } from "next/navigation"
 const SidebarContext = createContext()
 
 export default function Sidebar({ children }) {
@@ -27,12 +28,13 @@ export default function Sidebar({ children }) {
   
   return (
     <>
-      <aside className="h-screen">
-        <nav className="h-full flex flex-col bg-white text-black border-r shadow-sm">
+      <aside className="h-">
+        <nav className="h-full flex flex-col bg-white text-black ">
           <div className="p-4 pb-2 flex justify-between items-center">
-            <h1 className={`font-bold text-3xl transition-all ${expanded ? "w-auto" : "w-0 overflow-hidden"}`}>
-              MyToDo
-            </h1>
+            
+            <div className={`text-3xl font-bold text-blue-400 ${expanded ? "w-auto" : "w-0 overflow-hidden"}`}>
+          My<span className="text-black">ToDo</span>
+        </div>
             <button
               onClick={() => setExpanded((curr) => !curr)}
               className="p-1.5 rounded-lg bg-white hover:bg-gray-100"
@@ -44,9 +46,8 @@ export default function Sidebar({ children }) {
           <SidebarContext.Provider value={{ expanded, setShowAddTaskForm }}>
             <div className="flex-1 px-3">
               <SidebarItem icon={<Plus />} text="Add Task" action="addTask" />
-              <SidebarItem icon={<Calendar />} text="Today Tasks" />
-              <SidebarItem icon={<List />} text="Upcoming Tasks" />
-              <SidebarItem icon={<CheckCircle />} text="Completed Tasks" />
+              <SidebarItem icon={<Calendar />} text="Today Tasks" action="today-task"/>
+              <SidebarItem icon={<CheckCircle />} text="Completed Tasks" action = 'completed' />
               {children}
             </div>
           </SidebarContext.Provider>
@@ -89,7 +90,12 @@ export function SidebarItem({ icon, text, active, alert, action }) {
   const handleClick = () => {
     if (action === 'addTask') {
       setShowAddTaskForm(true)
+    }else if(action === 'completed'){
+      window.location.href = '/dashboard/completed'    
     }
+    else if(action === 'today-task'){
+      window.location.href = '/dashboard/today-tasks'    }
+   
     // Add other actions here if needed
   }
 

@@ -12,9 +12,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       <header className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="text-3xl font-bold text-blue-400">
-          My<span className="text-white">ToDo</span>
-        </div>
+        
         <nav>
           <Link href="/auth" className="bg-white text-black font-bold py-2 px-4 rounded">
             Sign In

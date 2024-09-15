@@ -12,20 +12,25 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { X } from 'lucide-react' // Add this import for the close icon
 import { createTask } from '@/lib/tasks.action'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react' // Add this import
 
 export const FormSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters long"),
     description: z.string().optional(),
     scheduledTime: z.date(),
+    priority: z.enum(["low", "medium", "high"]).default("medium"), // Add this line
 })
 
 const AddTaskForm = ({ onClose }) => { 
+    const [isPriorityOpen, setIsPriorityOpen] = useState(false)
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             title: '',
             description: '',
             scheduledTime: new Date(),
+            priority: 'medium', 
         }
     })
     
@@ -42,7 +47,7 @@ const AddTaskForm = ({ onClose }) => {
     }
 
     return (
-        <Card className='min-w-[500px] shadow-xl bg-white relative'> 
+        <Card className="min-w-[500px] shadow-xl bg-white relative"> 
             <Button
                 onClick={onClose} 
                 className="absolute top-2 right-2 p-2" 
@@ -121,7 +126,32 @@ const AddTaskForm = ({ onClose }) => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="bg-black text-white hover:text-black w-full rounded-full">
+                        <FormField
+                            control={form.control}
+                            name="priority"
+                            render={({ field }) => (
+                                <FormItem className="relative">
+                                    <FormLabel>Priority</FormLabel>
+                                    <Select 
+                                        onValueChange={field.onChange} 
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full p-2 border rounded-[8px] bg-white text-black">
+                                                <SelectValue placeholder="Select priority" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent className="absolute bottom-full mb-1 bg-white">
+                                            <SelectItem value="low" >Low</SelectItem>
+                                            <SelectItem value="medium">Medium</SelectItem>
+                                            <SelectItem value="high">High</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit" className="bg-black text-white hover:text-black w-full rounded-full mt-4"> {/* Add mt-4 */}
                             Create Task
                         </Button>  
                     </form>

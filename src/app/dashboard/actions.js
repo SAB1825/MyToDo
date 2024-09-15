@@ -33,3 +33,42 @@ export const getUser = async () => {
     })
     return dbUser;
 }
+
+export const getUserTasks = async (userId) => {
+    try {
+        const tasks = await prisma.task.findMany({
+            where: {
+                userId: userId,
+                completed: false
+            },
+            orderBy: {
+                scheduledTime: 'asc'
+            }
+        });
+        
+        return tasks;
+    } catch (error) {
+        console.error("Error fetching user tasks:", error);
+        return [];
+    }
+}
+
+export const completeTask = async (taskId, undo = false) => {
+    try {
+        if (undo) {
+            const restoredTask = await prisma.task.update({
+                where: { id: taskId },
+                data: { completed: false }
+            });
+            return restoredTask;
+        } else {
+            await prisma.task.update({
+                where: { id: taskId },
+                data: { completed: true }
+            });
+        }
+    } catch (error) {
+        console.error("Error updating task:", error);
+        throw error;
+    }
+}

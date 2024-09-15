@@ -1,8 +1,12 @@
-import { createTask } from '@/lib/tasks.action';
 import { NextResponse } from 'next/server';
+import { getUser } from '@/app/dashboard/actions';
+import { getTasks } from '@/lib/tasks.action';
 
-export async function POST(request) {
-    const data = await request.json();
-    const result = await createTask(data);
-    return NextResponse.json(result);
+export async function GET() {
+    const user = await getUser();
+    if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const tasks = await getTasks(user.id);
+    return NextResponse.json(tasks);
 }

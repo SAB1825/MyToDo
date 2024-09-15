@@ -7,7 +7,7 @@ const logOutButton = ({ children }) => {
     return (
       <Button 
       onClick = {() => logOut()}
-      className = "bg-black text-white w-full"
+      className = "bg-black text-white rounded-[50px] hover:text-black"
       >
           {children}
       </Button>
